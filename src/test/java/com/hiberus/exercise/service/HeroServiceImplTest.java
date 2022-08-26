@@ -1,59 +1,58 @@
 package com.hiberus.exercise.service;
 
-import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import com.hiberus.exercise.controller.HeroController;
 import com.hiberus.exercise.dto.HeroDto;
 import com.hiberus.exercise.model.Hero;
 import com.hiberus.exercise.repository.HeroRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 
-import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(value = HeroService.class)
-@ContextConfiguration
-public class HeroServiceImplTest {
 
-    @Autowired
-    private HeroService heroService;
+@ExtendWith(MockitoExtension.class)
+class HeroServiceImplTest {
 
-    @MockBean
+    @InjectMocks
+    private HeroServiceImpl heroService;
+
+    @Mock
     private HeroRepository heroRepository;
 
-    @Before
-    public void setUp() {
-
-    }
+    @Mock
+    private ModelMapper modelMapper;
 
     @Test
-    public void getHeroes(){
+    void getHeroes(){
+
         //given
-        List<Hero> heroesList = Arrays.asList(newHero(1), newHero(2));
-        given(heroRepository.findAll()).willReturn(((List<Hero>)heroesList));
+        List<Hero> heroesList = List.of(newHero(1), newHero(2));
+
+        when(heroRepository.findAll()).thenReturn(heroesList);
+        when(modelMapper.map(heroesList.get(0),HeroDto.class)).thenReturn(newHeroDto(1));
 
         //when
         List<HeroDto> heroesResponse = heroService.getAllHeroes();
 
         //then
-        assertThat(heroesResponse.isEmpty()).isFalse();
+        assertFalse(heroesResponse.isEmpty());
         assertThat(heroesResponse.size()).isSameAs(2);
+        //verify(heroRepository, times(1)).findAll();
 
     }
 
     private Hero newHero(long id){
         return new Hero(id, "", 0);
+    }
+    private HeroDto newHeroDto(long id){
+        return new HeroDto(id, "", 0);
     }
 
 }

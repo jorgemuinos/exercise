@@ -1,66 +1,57 @@
 package com.hiberus.exercise.controller;
 
+
 import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hiberus.exercise.dto.HeroDto;
+import com.hiberus.exercise.model.Hero;
 import com.hiberus.exercise.service.HeroService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-
-@RunWith(SpringRunner.class)
 @WebMvcTest(value = HeroController.class)
-@ContextConfiguration
-public class HeroControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
+@AutoConfigureMockMvc(addFilters = false)
+class HeroControllerTest {
 
     @MockBean
-    private HeroService heroService;
+    HeroService heroService;
 
-    private JacksonTester<List<HeroDto>> jsonResult;
-
-    final private HttpHeaders httpHeaders = new HttpHeaders();
-
-    @Before
-    public void setup() {
-        JacksonTester.initFields(this, new ObjectMapper());
-
-    }
+    @Autowired
+    MockMvc mvc;
 
     @Test
-    public void getHeroes() throws Exception{
+    void testGetAllHeroes() throws Exception{
         //given
-        List<HeroDto> heroesList = Arrays.asList(newHero(1), newHero(2));
-        given(heroService.getAllHeroes()).willReturn(heroesList);
+        List<HeroDto> heroesList = List.of(newHeroDto(1), newHeroDto(2));
+        Mockito.when(heroService.getAllHeroes()).thenReturn(heroesList);
 
         //when
-        MockHttpServletResponse response = mockMvc.perform(get("/heroes").headers(httpHeaders)).andReturn().getResponse();
+        ResultActions resultActions = mvc.perform(get("/heroes"));
 
         //then
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString()).isEqualTo(jsonResult.write(heroesList).getJson());
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.length()").value(heroesList.size()));
+
     }
 
-    private HeroDto newHero(long id){
+    private HeroDto newHeroDto(long id){
         return new HeroDto(id, "", 0);
     }
 }

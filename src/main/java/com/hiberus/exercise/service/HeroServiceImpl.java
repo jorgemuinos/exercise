@@ -25,35 +25,33 @@ public class HeroServiceImpl implements HeroService{
     private ModelMapper modelMapper;
 
     @Override
-    @Cacheable("heroes")
+    @Cacheable(value = "heroes")
     public List<HeroDto> getAllHeroes() {
         List<Hero> heroes = (List<Hero>) heroRepository.findAll();
         return heroes.stream().map(this::toDto).collect(Collectors.toList());
     }
 
     @Override
-    @Cacheable("heroes")
     public Optional<HeroDto> getHeroById(Long id) {
         Optional<Hero> hero = heroRepository.findById(id);
         return hero.map(this::toDto);
     }
 
     @Override
-    @Cacheable("heroes")
     public Optional<List<HeroDto>> getHeroesByName(String name) {
-        List<Hero> heroes = heroRepository.findByNameContainingIgnoreCase(name);
+        List<Hero> heroes = heroRepository.findAllByNameContainingIgnoreCase(name);
         return Optional.of(heroes.stream().map(this::toDto).collect(Collectors.toList()));
     }
 
     @Override
-    @CachePut("heroes")
-    public HeroDto saveOrUpdateHero(HeroDto hero) {
-        Hero heroModel = heroRepository.save(toModel(hero));
-        return toDto(heroModel);
+    @CacheEvict(value = "heroes", allEntries = true)
+    public HeroDto saveOrUpdateHero(HeroDto heroDto) {
+        Hero hero = heroRepository.save(toModel(heroDto));
+        return toDto(hero);
     }
 
     @Override
-    @CacheEvict("heroes")
+    @CacheEvict(value = "heroes")
     public void deleteHero(Long id) {
         heroRepository.deleteById(id);
     }

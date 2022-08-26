@@ -1,4 +1,4 @@
-package com.hiberus.exercise.service;
+package com.hiberus.exercise.anotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

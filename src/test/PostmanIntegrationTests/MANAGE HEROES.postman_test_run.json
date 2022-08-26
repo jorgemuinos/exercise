@@ -1,0 +1,290 @@
+{
+	"id": "3aaf273c-3cfc-4d6a-b772-f5e0a6b4630c",
+	"name": "MANAGE HEROES",
+	"timestamp": "2022-08-26T11:41:59.510Z",
+	"collection_id": "2164184-14d307eb-8679-4023-8ab3-02b86ceaa66d",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 12,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "9dbd88b7-d473-407c-9c83-c7cca872f6cf",
+			"name": "Save hero",
+			"url": "http://localhost:8081/api/heroes",
+			"time": 20,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				20
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "9f159347-942b-4fcc-9e00-3c848c7cefa1",
+			"name": "Get heroes by name",
+			"url": "http://localhost:8081/api/heroes?name=s",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "ed2ce6cb-5ee9-47b1-8b9c-0ed90971fc4d",
+			"name": "Get all heroes",
+			"url": "http://localhost:8081/api/heroes",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "39535cd6-e8ff-4c7d-8a94-33f834ba04db",
+			"name": "Get hero by Id",
+			"url": "http://localhost:8081/api/heroes/100",
+			"time": 12,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "3ca32af3-9dec-4ef5-8e41-12b99ae7adfc",
+			"name": "Update hero",
+			"url": "http://localhost:8081/api/heroes",
+			"time": 15,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				15
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "b27810f9-e1bb-44d7-b13c-470a735502ab",
+			"name": "Get hero by Id after update",
+			"url": "http://localhost:8081/api/heroes/100",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "ede92ad4-81ca-4f30-ab58-16b1e31faec7",
+			"name": "Delete hero",
+			"url": "http://localhost:8081/api/heroes/100",
+			"time": 13,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "c33b656e-69f1-4613-8f06-01ca0c9633cb",
+			"name": "Get hero by Id after delete",
+			"url": "http://localhost:8081/api/heroes/100",
+			"time": 9,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Status code is 404": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 102,
+	"collection": {
+		"requests": [
+			{
+				"id": "9dbd88b7-d473-407c-9c83-c7cca872f6cf",
+				"method": "POST"
+			},
+			{
+				"id": "9f159347-942b-4fcc-9e00-3c848c7cefa1",
+				"method": "GET"
+			},
+			{
+				"id": "ed2ce6cb-5ee9-47b1-8b9c-0ed90971fc4d",
+				"method": "GET"
+			},
+			{
+				"id": "39535cd6-e8ff-4c7d-8a94-33f834ba04db",
+				"method": "GET"
+			},
+			{
+				"id": "3ca32af3-9dec-4ef5-8e41-12b99ae7adfc",
+				"method": "PUT"
+			},
+			{
+				"id": "b27810f9-e1bb-44d7-b13c-470a735502ab",
+				"method": "GET"
+			},
+			{
+				"id": "ede92ad4-81ca-4f30-ab58-16b1e31faec7",
+				"method": "DELETE"
+			},
+			{
+				"id": "c33b656e-69f1-4613-8f06-01ca0c9633cb",
+				"method": "GET"
+			}
+		]
+	}
+}

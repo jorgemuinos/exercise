@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hiberus.exercise.dto.HeroDto;
-import com.hiberus.exercise.model.Hero;
+import com.hiberus.exercise.anotations.CustomTimed;
 import com.hiberus.exercise.service.HeroService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,40 +24,47 @@ import org.apache.logging.log4j.Logger;
 @RestController
 @RequestMapping("/heroes")
 public class HeroController {
+
     @Autowired
     private HeroService heroService;
 
     Logger logger = LogManager.getLogger(HeroController.class);
 
+    @CustomTimed
     @GetMapping
-    public ResponseEntity<List<HeroDto>> getHeroes(final @RequestParam(value = "name",required = false) String name){
+    public ResponseEntity<List<HeroDto>> getHeroes(final @RequestParam(value = "name", required = false) String name) {
         logger.info("Get heroes");
-        if(name != null){
-            Optional<List<HeroDto>> heroes = heroService.getHeroesByName(name);
-            return heroes.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-        }else{
-            return ResponseEntity.ok(heroService.getAllHeroes());
-        }
+        return Optional.ofNullable(name)
+            .map(nameOne -> {
+                    Optional<List<HeroDto>> heroes = heroService.getHeroesByName(nameOne);
+                    return heroes.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+                }
+            )
+            .orElseGet(() -> ResponseEntity.ok(heroService.getAllHeroes()));
     }
 
+    @CustomTimed
     @GetMapping("/{id}")
-    public ResponseEntity<HeroDto> getHero(final @PathVariable("id") Long id){
+    public ResponseEntity<HeroDto> getHero(final @PathVariable("id") Long id) {
         Optional<HeroDto> hero = heroService.getHeroById(id);
         return hero.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @CustomTimed
     @PutMapping
-    public ResponseEntity<HeroDto> updateHero(@RequestBody HeroDto hero){
+    public ResponseEntity<HeroDto> updateHero(@RequestBody HeroDto hero) {
         return ResponseEntity.ok(heroService.saveOrUpdateHero(hero));
     }
 
+    @CustomTimed
     @PostMapping
-    public ResponseEntity<HeroDto> saveHero(@RequestBody HeroDto hero){
+    public ResponseEntity<HeroDto> saveHero(@RequestBody HeroDto hero) {
         return ResponseEntity.ok(heroService.saveOrUpdateHero(hero));
     }
 
+    @CustomTimed
     @DeleteMapping("/{id}")
-    public ResponseEntity<HeroDto> deleteHero(final @PathVariable("id") Long id){
+    public ResponseEntity<HeroDto> deleteHero(final @PathVariable("id") Long id) {
         heroService.deleteHero(id);
         return ResponseEntity.noContent().build();
     }

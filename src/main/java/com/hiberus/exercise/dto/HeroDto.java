@@ -1,6 +1,8 @@
 package com.hiberus.exercise.dto;
 
-public class HeroDto {
+import java.io.Serializable;
+
+public class HeroDto implements Serializable {
 
     public long getId() {
         return id;
