@@ -25,13 +25,13 @@ public class HeroServiceImpl implements HeroService{
     private ModelMapper modelMapper;
 
     @Override
-    @Cacheable(value = "heroes")
     public List<HeroDto> getAllHeroes() {
         List<Hero> heroes = (List<Hero>) heroRepository.findAll();
         return heroes.stream().map(this::toDto).collect(Collectors.toList());
     }
 
     @Override
+    @Cacheable(value = "heroes")
     public Optional<HeroDto> getHeroById(Long id) {
         Optional<Hero> hero = heroRepository.findById(id);
         return hero.map(this::toDto);
@@ -44,7 +44,7 @@ public class HeroServiceImpl implements HeroService{
     }
 
     @Override
-    @CacheEvict(value = "heroes", allEntries = true)
+    @CacheEvict(value = "heroes", key = "#heroDto.id")
     public HeroDto saveOrUpdateHero(HeroDto heroDto) {
         Hero hero = heroRepository.save(toModel(heroDto));
         return toDto(hero);
