@@ -1,4 +1,4 @@
-package com.hiberus.exercise.anotations;
+package com.hiberus.exercise.annotations;
 
 import org.springframework.stereotype.Component;
 

@@ -22,7 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import com.hiberus.exercise.controller.validators.SaveHeroValidator;
 import com.hiberus.exercise.controller.validators.UpdateHeroValidator;
 import com.hiberus.exercise.dto.HeroDto;
-import com.hiberus.exercise.anotations.CustomTimed;
+import com.hiberus.exercise.annotations.CustomTimed;
 import com.hiberus.exercise.service.HeroService;
 
 @RestController

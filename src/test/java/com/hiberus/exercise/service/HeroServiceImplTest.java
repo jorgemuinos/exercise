@@ -14,7 +14,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,7 +41,7 @@ class HeroServiceImplTest {
         List<Hero> heroesList = List.of(newHero(1), newHero(2));
 
         when(heroRepository.findAll()).thenReturn(heroesList);
-        when(heroMapper.toDto(heroesList.get(0))).thenReturn(newHeroDto(1));
+        when(heroMapper.toDto(any())).thenReturn(newHeroDto(1));
 
         //when
         List<HeroDto> heroesResponse = heroService.getAllHeroes();
@@ -47,6 +49,7 @@ class HeroServiceImplTest {
         //then
         assertFalse(heroesResponse.isEmpty());
         assertThat(heroesResponse.size()).isSameAs(2);
+        assertEquals(heroesResponse.get(0).getId(), newHeroDto(1).getId());
         verify(heroRepository, times(1)).findAll();
 
     }
