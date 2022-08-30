@@ -12,7 +12,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 @Aspect
 @Component
 public class CustomTimedAspect {
-    Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
     @Around("@annotation(CustomTimed)")
     public Object executionTimeLog(ProceedingJoinPoint point) throws Throwable

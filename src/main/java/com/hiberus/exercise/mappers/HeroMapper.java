@@ -1,6 +1,5 @@
 package com.hiberus.exercise.mappers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.hiberus.exercise.dto.HeroDto;
@@ -10,8 +9,11 @@ import org.modelmapper.ModelMapper;
 @Component
 public class HeroMapper {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public HeroMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
     public HeroDto toDto(Hero hero){
         return modelMapper.map(hero,HeroDto.class);

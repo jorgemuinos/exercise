@@ -3,6 +3,7 @@ package com.hiberus.exercise.service;
 import java.util.List;
 
 import com.hiberus.exercise.dto.HeroDto;
+import com.hiberus.exercise.mappers.HeroMapper;
 import com.hiberus.exercise.model.Hero;
 import com.hiberus.exercise.repository.HeroRepository;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,8 @@ import org.modelmapper.ModelMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
@@ -27,7 +30,7 @@ class HeroServiceImplTest {
     private HeroRepository heroRepository;
 
     @Mock
-    private ModelMapper modelMapper;
+    private HeroMapper heroMapper;
 
     @Test
     void getHeroes(){
@@ -36,7 +39,7 @@ class HeroServiceImplTest {
         List<Hero> heroesList = List.of(newHero(1), newHero(2));
 
         when(heroRepository.findAll()).thenReturn(heroesList);
-        when(modelMapper.map(heroesList.get(0),HeroDto.class)).thenReturn(newHeroDto(1));
+        when(heroMapper.toDto(heroesList.get(0))).thenReturn(newHeroDto(1));
 
         //when
         List<HeroDto> heroesResponse = heroService.getAllHeroes();
@@ -44,7 +47,7 @@ class HeroServiceImplTest {
         //then
         assertFalse(heroesResponse.isEmpty());
         assertThat(heroesResponse.size()).isSameAs(2);
-        //verify(heroRepository, times(1)).findAll();
+        verify(heroRepository, times(1)).findAll();
 
     }
 

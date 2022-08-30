@@ -15,8 +15,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class BasicAuthWebSecurityConfiguration {
 
-    @Autowired
-    DataSource dataSource;
+    private final DataSource dataSource;
+
+    public BasicAuthWebSecurityConfiguration(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

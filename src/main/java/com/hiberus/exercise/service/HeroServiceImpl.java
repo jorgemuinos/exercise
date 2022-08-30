@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.hiberus.exercise.dto.HeroDto;
@@ -18,11 +16,13 @@ import com.hiberus.exercise.repository.HeroRepository;
 @Service
 public class HeroServiceImpl implements HeroService{
 
-    @Autowired
-    private HeroRepository heroRepository;
+    private final HeroRepository heroRepository;
+    private final HeroMapper heroMapper;
 
-    @Autowired
-    private HeroMapper heroMapper;
+    public HeroServiceImpl(HeroRepository heroRepository, HeroMapper heroMapper) {
+        this.heroRepository = heroRepository;
+        this.heroMapper = heroMapper;
+    }
 
     @Override
     public List<HeroDto> getAllHeroes() {

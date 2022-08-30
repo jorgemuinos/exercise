@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.hiberus.exercise.dto.HeroDto;
-import com.hiberus.exercise.model.Hero;
 
 public interface HeroService {
     List<HeroDto> getAllHeroes();
