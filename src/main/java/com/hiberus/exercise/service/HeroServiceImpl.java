@@ -6,14 +6,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.hiberus.exercise.dto.HeroDto;
+import com.hiberus.exercise.mappers.HeroMapper;
 import com.hiberus.exercise.model.Hero;
 import com.hiberus.exercise.repository.HeroRepository;
-import org.modelmapper.ModelMapper;
 
 @Service
 public class HeroServiceImpl implements HeroService{
@@ -22,45 +22,49 @@ public class HeroServiceImpl implements HeroService{
     private HeroRepository heroRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private HeroMapper heroMapper;
 
     @Override
     public List<HeroDto> getAllHeroes() {
-        List<Hero> heroes = (List<Hero>) heroRepository.findAll();
-        return heroes.stream().map(this::toDto).collect(Collectors.toList());
+        List<Hero> heroes = heroRepository.findAll();
+        return heroes.stream().map(heroMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
     @Cacheable(value = "heroes")
     public Optional<HeroDto> getHeroById(Long id) {
         Optional<Hero> hero = heroRepository.findById(id);
-        return hero.map(this::toDto);
+        return hero.map(heroMapper::toDto);
     }
 
     @Override
     public Optional<List<HeroDto>> getHeroesByName(String name) {
         List<Hero> heroes = heroRepository.findAllByNameContainingIgnoreCase(name);
-        return Optional.of(heroes.stream().map(this::toDto).collect(Collectors.toList()));
+        return Optional.of(heroes.stream().map(heroMapper::toDto).collect(Collectors.toList()));
+    }
+
+    @Override
+    @CacheEvict(value = "heroes", allEntries = true)
+    public HeroDto saveHero(HeroDto heroDto) {
+        Hero hero = heroRepository.save(heroMapper.toModel(heroDto));
+        return heroMapper.toDto(hero);
     }
 
     @Override
     @CacheEvict(value = "heroes", key = "#heroDto.id")
-    public HeroDto saveOrUpdateHero(HeroDto heroDto) {
-        Hero hero = heroRepository.save(toModel(heroDto));
-        return toDto(hero);
+    public Optional<HeroDto> updateHero(HeroDto heroDto) {
+        Optional<Hero> heroDb = heroRepository.findById(heroDto.getId());
+        return heroDb
+            .map(h -> {
+                Hero updatedHero = heroRepository.save(heroMapper.toModel(heroDto));
+                return Optional.of(heroMapper.toDto(updatedHero));
+            }
+        ).orElseGet(Optional::empty);
     }
 
     @Override
     @CacheEvict(value = "heroes")
     public void deleteHero(Long id) {
         heroRepository.deleteById(id);
-    }
-
-    private HeroDto toDto(Hero hero){
-        return modelMapper.map(hero,HeroDto.class);
-    }
-
-    private Hero toModel(HeroDto hero){
-        return modelMapper.map(hero,Hero.class);
     }
 }

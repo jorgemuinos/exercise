@@ -10,6 +10,7 @@ public interface HeroService {
     List<HeroDto> getAllHeroes();
     Optional<HeroDto> getHeroById(Long id);
     Optional<List<HeroDto>> getHeroesByName(String name);
-    HeroDto saveOrUpdateHero(HeroDto hero);
+    HeroDto saveHero(HeroDto hero);
+    Optional<HeroDto> updateHero(HeroDto hero);
     void deleteHero(Long id);
 }

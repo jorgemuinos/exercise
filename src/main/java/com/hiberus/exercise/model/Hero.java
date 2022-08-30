@@ -1,10 +1,23 @@
 package com.hiberus.exercise.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Hero {
+
+    @Id
+    @SequenceGenerator(name = "hero_id_seq", sequenceName = "HERO_ID_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hero_id_seq")
+    private long id;
+
+    private String name;
+
+    private int age;
 
     public Hero() {
     }
@@ -38,10 +51,5 @@ public class Hero {
     public void setAge(int age) {
         this.age = age;
     }
-
-    @Id
-    private long id;
-    private String name;
-    private int age;
 
 }

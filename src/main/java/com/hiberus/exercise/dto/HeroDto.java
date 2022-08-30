@@ -2,13 +2,30 @@ package com.hiberus.exercise.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+
+import com.hiberus.exercise.controller.validators.SaveHeroValidator;
+import com.hiberus.exercise.controller.validators.UpdateHeroValidator;
+
 public class HeroDto implements Serializable {
 
-    public long getId() {
+    @Null(groups = SaveHeroValidator.class)
+    @NotNull(groups = UpdateHeroValidator.class)
+    private Long id;
+
+    @NotBlank
+    private String name;
+
+    private int age;
+
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -28,7 +45,7 @@ public class HeroDto implements Serializable {
         this.age = age;
     }
 
-    public HeroDto(long id, String name, int age) {
+    public HeroDto(Long id, String name, int age) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -37,7 +54,4 @@ public class HeroDto implements Serializable {
     public HeroDto() {
     }
 
-    private long id;
-    private String name;
-    private int age;
 }

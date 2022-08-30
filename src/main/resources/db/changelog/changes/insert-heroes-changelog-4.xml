@@ -7,22 +7,22 @@
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     <changeSet author="admin" id="4">
         <insert tableName="hero">
-            <column name="id" valueNumeric="1"/>
+            <column name="id" valueSequenceNext="HERO_ID_SEQ"/>
             <column name="name" value="SUPERLOPEZ"/>
             <column name="age" valueNumeric="22"/>
         </insert>
         <insert tableName="hero">
-            <column name="id" valueNumeric="2"/>
+            <column name="id" valueSequenceNext="HERO_ID_SEQ"/>
             <column name="name" value="CAPITAN HISPANIA"/>
             <column name="age" valueNumeric="34"/>
         </insert>
         <insert tableName="hero">
-            <column name="id" valueNumeric="3"/>
+            <column name="id" valueSequenceNext="HERO_ID_SEQ"/>
             <column name="name" value="CALICO ELECTRONICO"/>
             <column name="age" valueNumeric="65"/>
         </insert>
         <insert tableName="hero">
-            <column name="id" valueNumeric="4"/>
+            <column name="id" valueSequenceNext="HERO_ID_SEQ"/>
             <column name="name" value="CAPITAN TRUENO"/>
             <column name="age" valueNumeric="110"/>
         </insert>

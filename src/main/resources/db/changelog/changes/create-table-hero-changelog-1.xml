@@ -19,4 +19,10 @@
             <dropTable tableName="hero"/>
         </rollback>
     </changeSet>
+    <changeSet id="createHeroSequence" author="admin">
+        <createSequence
+            incrementBy="1"
+             sequenceName="HERO_ID_SEQ"
+             startValue="1"/>
+    </changeSet>
 </databaseChangeLog>
