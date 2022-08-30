@@ -34,7 +34,7 @@ For Swagger url you can use the same values
 You can launch de project with the commands:
 ```bash
 docker build -t exercise .
-docker run -p 8080:8080 exercise
+docker run -p 8081:8081 exercise
 ```
 
 ###Tests
